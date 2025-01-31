@@ -52,7 +52,7 @@ class APIEndpointDetail:
         description='''
         This is sample edit endpoint.
         ''',
-        tags=EndpointTag.sample_Update,
+        tags=EndpointTag.sample_V0,
         path='/update'
     )
 
@@ -61,7 +61,7 @@ class APIEndpointDetail:
         description='''
         This is a sample data endpoint.
         ''',
-        tags=EndpointTag.get_sample,
+        tags=EndpointTag.sample_V0,
         path='/get'
     )
 
@@ -70,6 +70,6 @@ class APIEndpointDetail:
         description='''
         This is a sample data endpoint.
         ''',
-        tags=EndpointTag.delete_Sample,
+        tags=EndpointTag.sample_V0,
         path='/delete'
     )

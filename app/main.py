@@ -37,3 +37,4 @@ async def root(is_db_connected: bool = Depends(check_db_connection)):
     raise HTTPException(status_code=500, detail="Database is not connected")
 
 app.include_router(routers.sample_router_V0)
+app.include_router(routers.sql_sample_router)

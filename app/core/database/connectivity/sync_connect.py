@@ -5,7 +5,7 @@ from sqlalchemy.orm import (
 )
 
 from app.shared.helpers.read_env import get_db_creds
-
+from sqlalchemy.engine import Connection
 
 # environment variables
 DB_CREDS: dict = get_db_creds()
@@ -46,3 +46,10 @@ def get_sync_db():
         yield db
     finally:
         db.close()
+
+def get_conn_sync_db():
+    connection = sync_db_engine.connect()
+    try:
+        yield connection
+    finally:
+        connection.close()

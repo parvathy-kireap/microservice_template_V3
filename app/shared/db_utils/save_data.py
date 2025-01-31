@@ -2,6 +2,7 @@ from typing import TypeVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session
+from sqlalchemy.engine import Transaction
 
 from app.shared.exceptions.db_write_fail import DBAWriteFailedException
 
@@ -32,7 +33,6 @@ async def add_commit_refresh(db: AsyncSession, obj: T) -> T:
         await db.rollback()
         raise DBAWriteFailedException(str(e), code=500)
 
-
 def commit_and_refresh(db: Session, obj: T) -> T:
     """
     Commit changes to the database and refresh the given object.
@@ -49,6 +49,7 @@ def commit_and_refresh(db: Session, obj: T) -> T:
         SQLAlchemyError: If there's an issue with the database operation.
     """
     try:
+        # import pdb;pdb.set_trace()
         db.commit()
         db.refresh(obj)
         return obj
@@ -77,4 +78,23 @@ def commit_function(db: Session) -> int:
         return 1
     except Exception as e:
         db.rollback()
+        raise DBAWriteFailedException(str(e), code=500)
+
+def  sql_commit_and_refresh(transaction :Transaction, obj:T) -> T:
+    try:
+        import pdb;pdb.set_trace()
+        transaction.commit()
+        inserted_data = obj.fetchone()
+        return inserted_data
+    except Exception as e:
+        transaction.rollback()
+        raise DBAWriteFailedException(str(e), code=500)
+
+def sql_commit_function(transaction :Transaction) -> int:
+    try:
+        transaction.commit()
+        # inserted_data = obj.fetchone()
+        return 1
+    except Exception as e:
+        transaction.rollback()
         raise DBAWriteFailedException(str(e), code=500)

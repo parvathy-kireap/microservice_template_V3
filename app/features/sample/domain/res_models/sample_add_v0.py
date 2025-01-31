@@ -29,3 +29,20 @@ class SampleDeleteV0ResModel(BaseModel):
             }
         }
     )
+
+class SampleGetV0ResModel(BaseModel):
+    id: int 
+    name: str
+    address: str
+    status: str = "success"
+    # sample response
+    model_config = ConfigDict(
+        json_schema_extra={
+            "example": {
+                "id": 1,
+                "name": 'sample name',
+                "address": "sample address",
+                "status": "success"
+            }
+        }
+    )

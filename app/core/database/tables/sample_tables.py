@@ -3,6 +3,8 @@ from sqlalchemy.orm import (
     mapped_column,
 )
 
+from sqlalchemy import ForeignKey
+
 from app.core.database.tables.base import Base
 
 
@@ -30,3 +32,16 @@ class SampleTable(Base):
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
+class SampleAddress(Base):
+    __tablename__= 'sample_address'
+    __table_args__ = {'schema': schema}
+
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+        autoincrement=True,
+        index=True,
+        nullable=False,
+        unique=True,
+    )
+    address:Mapped[str] = mapped_column(nullable=False)
+    sample_id:Mapped[int] = mapped_column(ForeignKey('sample.sample_table.id'))
